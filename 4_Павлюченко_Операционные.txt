@@ -1,0 +1,36 @@
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ echo "FILEE 1" > file1
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ cp file1 file2
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ln -s file1 file3
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ln file1 file4
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls -li file1 file2 file3 file4
+1575802 -rw-rw-r-- 2 ksenia-p ksenia-p 8 Oct  8 20:30 file1
+1575813 -rw-rw-r-- 1 ksenia-p ksenia-p 8 Oct  8 20:32 file2
+1575832 lrwxrwxrwx 1 ksenia-p ksenia-p 5 Oct  8 20:33 file3 -> file1
+1575802 -rw-rw-r-- 2 ksenia-p ksenia-p 8 Oct  8 20:30 file4
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ rm file1
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls -li file2 file3 file4
+1575813 -rw-rw-r-- 1 ksenia-p ksenia-p 8 Oct  8 20:32 file2
+1575832 lrwxrwxrwx 1 ksenia-p ksenia-p 5 Oct  8 20:33 file3 -> file1
+1575802 -rw-rw-r-- 1 ksenia-p ksenia-p 8 Oct  8 20:30 file4
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ cat file2
+FILEE 1
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ cat file3
+cat: file3: No such file or directory
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ cat file4
+FILEE 1
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ mv file2 file2_new
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ mv file3 file3_new
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ mv file4 file4_new
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ln -s file2_new link_file2_new
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ mkdir papka
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ mv file3_new file4_new link_file2_new papka/
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ touch prava_file_1 prava_file_2
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ chmod 664 prava_file_1
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ chmod 600 prava_file_2
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls -l prava_file_1
+-rw-rw-r-- 1 ksenia-p ksenia-p 0 Oct  8 20:44 prava_file_1
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls -l prava_file_2
+-rw------- 1 ksenia-p ksenia-p 0 Oct  8 20:44 prava_file_2
+

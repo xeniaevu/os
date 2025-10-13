@@ -1,0 +1,45 @@
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ echo "iushaac;sab;icahchau;chuac;i" > yu.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ cat /etc/* 2> errors.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls -l | cut -c 1-10 | sort | uniq
+drwx------
+drwxr-xr-x
+-rw-rw-r--
+total 60
+
+
+
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo nano /etc/ssh/sshd_config
+[sudo] password for ksenia-p:
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls -l /etc/ssh
+total 32
+-rw-r--r-- 1 root root 1649 Feb 18  2025 ssh_config
+drwxr-xr-x 2 root root 4096 Sep 10 18:06 ssh_config.d
+-rw------- 1 root root  537 Sep 10 18:25 ssh_host_ecdsa_key
+-rw-r--r-- 1 root root  196 Sep 10 18:25 ssh_host_ecdsa_key.pub
+-rw------- 1 root root  432 Sep 10 18:25 ssh_host_ed25519_key
+-rw-r--r-- 1 root root  116 Sep 10 18:25 ssh_host_ed25519_key.pub
+-rw------- 1 root root 2622 Sep 10 18:25 ssh_host_rsa_key
+-rw-r--r-- 1 root root  588 Sep 10 18:25 ssh_host_rsa_key.pub
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ service ssh status
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt install --reinstall openssh-server
+senia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo nano /etc/ssh/sshd_config
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ service sshd restart
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo nano /etc/ssh/sshd_config
+
+	restart полностью останавливает и заново запускает службу (все соединения разрываются)
+	reload применяет новые настройки без полной остановки службы (активные соединения сохраняются)
+
+
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ cat > testfile.txt
+
+	При нажатии ctrl+D процессу cat посылается сигнал EOF (End Of File), а не сигнал kill
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ mc &
+[1] 5641
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ps aux | grep mc
+ksenia-p    5641  0.0  0.2  26448  7452 pts/1    T    17:28   0:00 mc
+ksenia-p    5645  0.0  0.0   8888  1948 pts/1    S+   17:29   0:00 grep --color=auto mc
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ kill -9 5641

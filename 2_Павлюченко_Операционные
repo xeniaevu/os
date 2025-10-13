@@ -1,0 +1,188 @@
+
+
+#Задание 1:
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo adduser laba_2_user
+[sudo] password for ksenia-p: 
+info: Adding user `laba_2_user' ...
+info: Selecting UID/GID from range 1000 to 59999 ...
+info: Adding new group `laba_2_user' (1001) ...
+info: Adding new user `laba_2_user' (1001) with group `laba_2_user (1001)' ...
+info: Creating home directory `/home/laba_2_user' ...
+info: Copying files from `/etc/skel' ...
+New password: 
+BAD PASSWORD: The password fails the dictionary check - it is too simplistic/systematic
+Retype new password: 
+passwd: password updated successfully
+Changing the user information for laba_2_user
+Enter the new value, or press ENTER for the default
+	Full Name []: laba_2_user
+	Room Number []: 
+	Work Phone []: 
+	Home Phone []: 
+	Other []: 
+Is the information correct? [Y/n] Y
+info: Adding new user `laba_2_user' to supplemental / extra groups `users' ...
+info: Adding user `laba_2_user' to group `users' ...
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ id laba_2_user
+uid=1001(laba_2_user) gid=1001(laba_2_user) groups=1001(laba_2_user),100(users)
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo deluser laba_2_user
+info: Removing crontab ...
+info: Removing user `laba_2_user' ...
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ grep laba_2_user /etc/passwd
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ id laba_2_user
+id: \u2018laba_2_user\u2019: no such user
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+
+
+
+
+
+
+#Задание 2:
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo addgroup laba_2
+[sudo] password for ksenia-p: 
+Sorry, try again.
+[sudo] password for ksenia-p: 
+info: Selecting GID from range 1000 to 59999 ...
+info: Adding group `laba_2' (GID 1001) ...
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo adduser laba_2_user
+info: Adding user `laba_2_user' ...
+info: Selecting UID/GID from range 1000 to 59999 ...
+info: Adding new group `laba_2_user' (1002) ...
+info: Adding new user `laba_2_user' (1002) with group `laba_2_user (1002)' ...
+warn: The home directory `/home/laba_2_user' already exists.  Not touching this directory.
+warn: Warning: The home directory `/home/laba_2_user' does not belong to the user you are currently creating.
+New password: 
+BAD PASSWORD: The password fails the dictionary check - it is too simplistic/systematic
+Retype new password: 
+passwd: password updated successfully
+Changing the user information for laba_2_user
+Enter the new value, or press ENTER for the default
+	Full Name []: 
+	Room Number []: 
+	Work Phone []: 
+	Home Phone []: 
+	Other []: 
+Is the information correct? [Y/n] Y
+info: Adding new user `laba_2_user' to supplemental / extra groups `users' ...
+info: Adding user `laba_2_user' to group `users' ...
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo addgroup laba_2_maingroup
+info: Selecting GID from range 1000 to 59999 ...
+info: Adding group `laba_2_maingroup' (GID 1003) ...
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo usermod -g laba_2_maingroup laba_2_user
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ id laba_2_user
+uid=1002(laba_2_user) gid=1003(laba_2_maingroup) groups=1003(laba_2_maingroup),100(users)
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo usermod -aG laba_2 laba_2_user
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ groups laba_2_user
+laba_2_user : laba_2_maingroup users laba_2
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ id laba_2_user
+uid=1002(laba_2_user) gid=1003(laba_2_maingroup) groups=1003(laba_2_maingroup),100(users),1001(laba_2)
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo usermod -G laba_2_maingroup,users laba_2_user
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ groups laba_2_user
+laba_2_user : laba_2_maingroup users
+
+
+
+
+
+
+#Задание 3:
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo adduser laba_2_user_sp
+info: Adding user `laba_2_user_sp' ...
+info: Selecting UID/GID from range 1000 to 59999 ...
+info: Adding new group `laba_2_user_sp' (1005) ...
+info: Adding new user `laba_2_user_sp' (1005) with group `laba_2_user_sp (1005)' ...
+info: Creating home directory `/home/laba_2_user_sp' ...
+info: Copying files from `/etc/skel' ...
+New password: 
+BAD PASSWORD: The password fails the dictionary check - it is too simplistic/systematic
+Retype new password: 
+passwd: password updated successfully
+Changing the user information for laba_2_user_sp
+Enter the new value, or press ENTER for the default
+	Full Name []: 
+	Room Number []: 
+	Work Phone []: 
+	Home Phone []: 
+	Other []: 
+Is the information correct? [Y/n] Y
+info: Adding new user `laba_2_user_sp' to supplemental / extra groups `users' ...
+info: Adding user `laba_2_user_sp' to group `users' ...
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo usermod -aG sudo laba_2_user_sp
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ su - laba_2_user_sp
+Password: 
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+laba_2_user_sp@ksenia-p-QEMU-Virtual-Machine:~$ sudo -l
+[sudo] password for laba_2_user_sp: 
+Matching Defaults entries for laba_2_user_sp on ksenia-p-QEMU-Virtual-Machine:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
+
+User laba_2_user_sp may run the following commands on ksenia-p-QEMU-Virtual-Machine:
+    (ALL : ALL) ALL
+
+
+
+
+
+
+
+#Задание 4:
+
+laba_2_user_sp@ksenia-p-QEMU-Virtual-Machine:~$ sudo visudo
+laba_2_user_sp@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt update
+Hit:1 http://ports.ubuntu.com/ubuntu-ports plucky InRelease
+Hit:2 http://ports.ubuntu.com/ubuntu-ports plucky-updates InRelease
+Hit:3 http://ports.ubuntu.com/ubuntu-ports plucky-backports InRelease
+Hit:4 http://ports.ubuntu.com/ubuntu-ports plucky-security InRelease
+155 packages can be upgraded. Run 'apt list --upgradable' to see them.
+laba_2_user_sp@ksenia-p-QEMU-Virtual-Machine:~$ sudo systemctl restart nginx
+Failed to restart nginx.service: Unit nginx.service not found.
+laba_2_user_sp@ksenia-p-QEMU-Virtual-Machine:~$ nginx -v
+Command 'nginx' not found, but can be installed with:
+sudo apt install nginx
+laba_2_user_sp@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt update
+Hit:1 http://ports.ubuntu.com/ubuntu-ports plucky InRelease
+Hit:2 http://ports.ubuntu.com/ubuntu-ports plucky-updates InRelease
+Hit:3 http://ports.ubuntu.com/ubuntu-ports plucky-backports InRelease
+Hit:4 http://ports.ubuntu.com/ubuntu-ports plucky-security InRelease
+155 packages can be upgraded. Run 'apt list --upgradable' to see them.
+laba_2_user_sp@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt install nginx
+Installing:                     
+  nginx
+
+Installing dependencies:
+  nginx-common
+
+Suggested packages:
+  fcgiwrap  nginx-doc
+
+Summary:
+  Upgrading: 0, Installing: 2, Removing: 0, Not Upgrading: 155
+  Download size: 643 kB
+  Space needed: 1,812 kB / 29.3 GB available
+
+Continue? [Y/n] Y
+Get:1 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 nginx-common all 1.26.3-2ubuntu1.2 [43.7 kB]
+Get:2 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 nginx arm64 1.26.3-2ubuntu1.2 [599 kB]
+Fetched 643 kB in 1s (810 kB/s)
+Preconfiguring packages ...
+Selecting previously unselected package nginx-common.
+(Reading database ... 145653 files and directories currently installed.)
+Preparing to unpack .../nginx-common_1.26.3-2ubuntu1.2_all.deb ...
+Unpacking nginx-common (1.26.3-2ubuntu1.2) ...
+Selecting previously unselected package nginx.
+Preparing to unpack .../nginx_1.26.3-2ubuntu1.2_arm64.deb ...
+Unpacking nginx (1.26.3-2ubuntu1.2) ...
+Setting up nginx-common (1.26.3-2ubuntu1.2) ...
+Created symlink '/etc/systemd/system/multi-user.target.wants/nginx.service' \u2192 '/usr/lib/systemd/system/nginx.service'.
+Setting up nginx (1.26.3-2ubuntu1.2) ...
+ * Upgrading binary nginx                                                                                                                                                                                                                        [ OK ] 
+Processing triggers for man-db (2.13.0-1) ...
+Processing triggers for ufw (0.36.2-9) ...
+laba_2_user_sp@ksenia-p-QEMU-Virtual-Machine:~$ sudo systemctl restart nginx
+laba_2_user_sp@ksenia-p-QEMU-Virtual-Machine:~$ 
