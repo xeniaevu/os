@@ -1,0 +1,59 @@
+Доп 1
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo groupadd developer
+[sudo] password for ksenia-p: 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo useradd -m -G developer user1
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo useradd -m -G developer user2 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo passwd user1
+New password: 
+Retype new password: 
+passwd: password updated successfully
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo passwd user2
+New password: 
+Retype new password: 
+passwd: password updated successfully
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo mkdir /opt/devteam
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo chown :developer /opt/devteam
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo chmod 2770 /opt/devteam
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls -ld /opt/devteam
+drwxrws--- 2 root developer 4096 Nov 19 10:18 /opt/devteam
+
+Доп 2
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo groupadd developer 2>/dev/null
+[sudo] password for ksenia-p: 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo mkdir -p /opt/devteam/exchange
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo chown :developer /opt/devteam/exchange
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo chmod 3770 /opt/devteam/exchange
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls -ld /opt/devteam/exchange
+ls: cannot access '/opt/devteam/exchange': Permission denied
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo ls -ld /opt/devteam/exchange
+drwxrws--T 2 root developer 4096 Nov 19 10:21 /opt/devteam/exchange
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ groups $(whoami)
+ksenia-p : ksenia-p adm cdrom sudo dip plugdev users lpadmin developer
+
+
+Доп 3
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ mkdir ~/secretfolder
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ touch ~/secretfolder/file1.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ touch ~/secretfolder/file2.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ chmod 701 ~/secretfolder
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ chmod 600 ~/secretfolder/file1.txt ~/secretfolder/file2.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls ~/secretfolder
+file1.txt  file2.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ cat ~/secretfolder/file1.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls ~/secretfolder
+file1.txt  file2.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ mkdir ~/secretfolder
+mkdir: cannot create directory \u2018/home/ksenia-p/secretfolder\u2019: File exists
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ touch ~/secretfolder/file1.txt ~/secretfolder/file2.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ chmod 703 ~/secretfolder
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ chmod 600 ~/secretfolder/file1.txt ~/secretfolder/file2.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo -u nobody ls ~/secretfolder
+[sudo] password for ksenia-p: 
+Sorry, try again.
+[sudo] password for ksenia-p: 
+ls: cannot access '/home/ksenia-p/secretfolder': Permission denied
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ cat ~/secretfolder/file1.txt
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 

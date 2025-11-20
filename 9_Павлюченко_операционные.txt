@@ -1,0 +1,91 @@
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt update
+[sudo] password for ksenia-p: 
+Hit:1 http://ports.ubuntu.com/ubuntu-ports plucky InRelease
+Hit:2 http://ports.ubuntu.com/ubuntu-ports plucky-updates InRelease
+Hit:3 http://ports.ubuntu.com/ubuntu-ports plucky-backports InRelease
+Hit:4 http://ports.ubuntu.com/ubuntu-ports plucky-security InRelease
+174 packages can be upgraded. Run 'apt list --upgradable' to see them.
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt install nginx
+nginx is already the newest version (1.26.3-2ubuntu1.2).
+Summary:                    
+  Upgrading: 0, Installing: 0, Removing: 0, Not Upgrading: 174
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ dpkg -l | grep nginx
+ii  nginx                                         1.26.3-2ubuntu1.2                          arm64        small, powerful, scalable web/proxy server
+ii  nginx-common                                  1.26.3-2ubuntu1.2                          all          small, powerful, scalable web/proxy server - common files
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo dpkg --purge nginx
+(Reading database ... 206020 files and directories currently installed.)
+Removing nginx (1.26.3-2ubuntu1.2) ...
+Processing triggers for man-db (2.13.0-1) ...
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ dpkg -l | grep nginx
+ii  nginx-common                                  1.26.3-2ubuntu1.2                          all          small, powerful, scalable web/proxy server - common files
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo snap install opera
+error: snap "opera" is not available on stable for this architecture (arm64) but exists on other
+       architectures (amd64).
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo snap install htop
+htop 3.4.1 from Maximiliano Bertacchini \u272a (maxiberta\u272a) installed
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ snap list
+Name                       Version                         Rev    Tracking         Publisher   Notes
+bare                       1.0                             5      latest/stable    canonical\u2713  base
+core22                     20251009                        2164   latest/stable    canonical\u2713  base
+core24                     20251001                        1226   latest/stable    canonical\u2713  base
+desktop-security-center    0+git.d93b42d                   100    1/stable/\u2026       canonical\u2713  -
+firefox                    144.0-2                         7077   latest/stable/\u2026  mozilla\u2713    -
+gnome-42-2204              0+git.837775c-sdk0+git.7b07595  228    latest/stable/\u2026  canonical\u2713  -
+gtk-common-themes          0.1-81-g442e511                 1535   latest/stable/\u2026  canonical\u2713  -
+htop                       3.4.1                           5189   latest/stable    maxiberta\u272a  -
+prompting-client           0+git.d542a5d                   105    1/stable/\u2026       canonical\u2713  -
+snap-store                 0+git.c8916a07                  1301   2/stable/\u2026       canonical\u2713  -
+snapd                      2.72                            25585  latest/stable    canonical\u2713  snapd
+snapd-desktop-integration  0.9                             316    latest/stable/\u2026  canonical\u2713  -
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo snap remove opera
+snap "opera" is not installed
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo snap remove htop
+htop removed (snap data snapshot saved)
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo iptables -F
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo iptables -P INPUT DROP   
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo iptables -L -n
+Chain INPUT (policy DROP)
+target     prot opt source               destination         
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:80
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo iptables -t nat -L -n
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination         
+REDIRECT   tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:80 redir ports 8080
+
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination         
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ 
+

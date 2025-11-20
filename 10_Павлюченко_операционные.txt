@@ -1,0 +1,236 @@
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt update
+sudo apt install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+[sudo] password for ksenia-p: 
+Sorry, try again.
+[sudo] password for ksenia-p: 
+Hit:1 http://ports.ubuntu.com/ubuntu-ports plucky InRelease
+Ign:2 https://packages.ntop.org/apt/plucky_pi arm64/ InRelease
+Ign:3 https://packages.ntop.org/apt/plucky_pi all/ InRelease
+Get:4 http://ports.ubuntu.com/ubuntu-ports plucky-updates InRelease [126 kB]
+Err:5 https://packages.ntop.org/apt/plucky_pi arm64/ Release
+  404  Not Found [IP: 116.203.142.127 443]
+Err:6 https://packages.ntop.org/apt/plucky_pi all/ Release
+  404  Not Found [IP: 116.203.142.127 443]
+Get:7 http://ports.ubuntu.com/ubuntu-ports plucky-backports InRelease [126 kB]
+Get:8 http://ports.ubuntu.com/ubuntu-ports plucky-security InRelease [126 kB]
+Get:9 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 Packages [455 kB]
+Get:10 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main Translation-en [107 kB]
+Get:11 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 Components [55.5 kB]
+Get:12 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 c-n-f Metadata [9,180 B]
+Get:13 http://ports.ubuntu.com/ubuntu-ports plucky-updates/restricted arm64 Components [212 B]
+Get:14 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe arm64 Packages [246 kB]
+Get:15 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe Translation-en [80.3 kB]
+Get:16 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe arm64 Components [26.6 kB]
+Get:17 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe arm64 c-n-f Metadata [6,556 B]
+Get:18 http://ports.ubuntu.com/ubuntu-ports plucky-updates/multiverse arm64 Components [212 B]
+Get:19 http://ports.ubuntu.com/ubuntu-ports plucky-backports/main arm64 Components [212 B]
+Get:20 http://ports.ubuntu.com/ubuntu-ports plucky-backports/restricted arm64 Components [216 B]
+Get:21 http://ports.ubuntu.com/ubuntu-ports plucky-backports/universe arm64 Components [3,120 B]
+Get:22 http://ports.ubuntu.com/ubuntu-ports plucky-backports/multiverse arm64 Components [216 B]
+Get:23 http://ports.ubuntu.com/ubuntu-ports plucky-security/main arm64 Packages [336 kB]
+Get:24 http://ports.ubuntu.com/ubuntu-ports plucky-security/main Translation-en [72.2 kB]
+Get:25 http://ports.ubuntu.com/ubuntu-ports plucky-security/main arm64 Components [16.5 kB]
+Get:26 http://ports.ubuntu.com/ubuntu-ports plucky-security/restricted arm64 Components [208 B]
+Get:27 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe arm64 Packages [183 kB]
+Get:28 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe Translation-en [58.3 kB]
+Get:29 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe arm64 Components [3,680 B]
+Get:30 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe arm64 c-n-f Metadata [4,788 B]
+Get:31 http://ports.ubuntu.com/ubuntu-ports plucky-security/multiverse arm64 Components [212 B]
+Error: The repository 'https://packages.ntop.org/apt/plucky_pi arm64/ Release' does not have a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+Error: The repository 'https://packages.ntop.org/apt/plucky_pi all/ Release' does not have a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+ca-certificates is already the newest version (20241223).
+ca-certificates set to manually installed.
+gnupg is already the newest version (2.4.4-2ubuntu23.1).
+Installing:                 
+  curl
+
+Summary:
+  Upgrading: 0, Installing: 1, Removing: 0, Not Upgrading: 221
+  1 not fully installed or removed.
+  Download size: 252 kB
+  Space needed: 515 kB / 17.1 GB available
+
+Get:1 http://ports.ubuntu.com/ubuntu-ports plucky/main arm64 curl arm64 8.12.1-3ubuntu1 [252 kB]
+Fetched 252 kB in 1s (287 kB/s)
+Selecting previously unselected package curl.
+(Reading database ... 149020 files and directories currently installed.)
+Preparing to unpack .../curl_8.12.1-3ubuntu1_arm64.deb ...
+Unpacking curl (8.12.1-3ubuntu1) ...
+Setting up apt-ntop (2.10-52) ...
+Updating package list...
+Hit:1 http://ports.ubuntu.com/ubuntu-ports plucky InRelease
+Hit:2 http://ports.ubuntu.com/ubuntu-ports plucky-updates InRelease
+Hit:3 http://ports.ubuntu.com/ubuntu-ports plucky-backports InRelease
+Ign:4 https://packages.ntop.org/apt/plucky_pi arm64/ InRelease
+Ign:5 https://packages.ntop.org/apt/plucky_pi all/ InRelease
+Hit:6 http://ports.ubuntu.com/ubuntu-ports plucky-security InRelease
+Err:7 https://packages.ntop.org/apt/plucky_pi arm64/ Release
+  404  Not Found [IP: 116.203.142.127 443]
+Err:8 https://packages.ntop.org/apt/plucky_pi all/ Release
+  404  Not Found [IP: 116.203.142.127 443]
+Error: The repository 'https://packages.ntop.org/apt/plucky_pi arm64/ Release' does not have a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+Error: The repository 'https://packages.ntop.org/apt/plucky_pi all/ Release' does not have a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+dpkg: error processing package apt-ntop (--configure):
+ installed apt-ntop package post-installation script subprocess returned error exit status 100
+Setting up curl (8.12.1-3ubuntu1) ...
+Processing triggers for man-db (2.13.0-1) ...
+Errors were encountered while processing:
+ apt-ntop
+Error: Sub-process /usr/bin/dpkg returned an error code (1)
+Hit:1 http://ports.ubuntu.com/ubuntu-ports plucky InRelease
+Hit:2 http://ports.ubuntu.com/ubuntu-ports plucky-updates InRelease                                     
+Ign:3 https://packages.ntop.org/apt/plucky_pi arm64/ InRelease                                   
+Hit:4 http://ports.ubuntu.com/ubuntu-ports plucky-backports InRelease
+Ign:5 https://packages.ntop.org/apt/plucky_pi all/ InRelease        
+Get:6 https://download.docker.com/linux/ubuntu plucky InRelease [32.5 kB]
+Hit:7 http://ports.ubuntu.com/ubuntu-ports plucky-security InRelease
+Err:8 https://packages.ntop.org/apt/plucky_pi arm64/ Release
+  404  Not Found [IP: 116.203.142.127 443]
+Get:9 https://download.docker.com/linux/ubuntu plucky/stable arm64 Packages [17.3 kB]
+Err:10 https://packages.ntop.org/apt/plucky_pi all/ Release
+  404  Not Found [IP: 116.203.142.127 443]
+Error: The repository 'https://packages.ntop.org/apt/plucky_pi arm64/ Release' does not have a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+Error: The repository 'https://packages.ntop.org/apt/plucky_pi all/ Release' does not have a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt install -y docker-ce docker-ce-cli containerd.io
+Installing:                     
+  containerd.io  docker-ce  docker-ce-cli
+
+Installing dependencies:
+  docker-buildx-plugin       docker-compose-plugin  git-man        libslirp0  slirp4netns
+  docker-ce-rootless-extras  git                    liberror-perl  pigz
+
+Suggested packages:
+  cgroupfs-mount  docker-model-plugin  git-email  gitk    git-cvs        git-svn
+  | cgroup-lite   git-doc              git-gui    gitweb  git-mediawiki
+
+Summary:
+  Upgrading: 0, Installing: 12, Removing: 0, Not Upgrading: 221
+  1 not fully installed or removed.
+  Download size: 89.2 MB
+  Space needed: 409 MB / 17.1 GB available
+
+Get:1 http://ports.ubuntu.com/ubuntu-ports plucky/universe arm64 pigz arm64 2.8-1 [60.7 kB]
+Get:2 https://download.docker.com/linux/ubuntu plucky/stable arm64 containerd.io arm64 2.1.5-1~ubuntu.25.04~plucky [19.3 MB]
+Get:3 http://ports.ubuntu.com/ubuntu-ports plucky/main arm64 liberror-perl all 0.17030-1 [23.5 kB]
+Get:4 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 git-man all 1:2.48.1-0ubuntu1.1 [1,149 kB]
+Get:5 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 git arm64 1:2.48.1-0ubuntu1.1 [4,222 kB]
+Get:6 http://ports.ubuntu.com/ubuntu-ports plucky/main arm64 libslirp0 arm64 4.8.0-1ubuntu1 [63.8 kB]
+Get:7 http://ports.ubuntu.com/ubuntu-ports plucky/universe arm64 slirp4netns arm64 1.2.1-1build2 [34.3 kB]
+Get:8 https://download.docker.com/linux/ubuntu plucky/stable arm64 docker-ce-cli arm64 5:29.0.2-1~ubuntu.25.04~plucky [14.7 MB]
+Get:9 https://download.docker.com/linux/ubuntu plucky/stable arm64 docker-ce arm64 5:29.0.2-1~ubuntu.25.04~plucky [17.5 MB]
+Get:10 https://download.docker.com/linux/ubuntu plucky/stable arm64 docker-buildx-plugin arm64 0.30.0-1~ubuntu.25.04~plucky [14.1 MB]
+Get:11 https://download.docker.com/linux/ubuntu plucky/stable arm64 docker-ce-rootless-extras arm64 5:29.0.2-1~ubuntu.25.04~plucky [5,654 kB]
+Get:12 https://download.docker.com/linux/ubuntu plucky/stable arm64 docker-compose-plugin arm64 2.40.3-1~ubuntu.25.04~plucky [12.3 MB]
+Fetched 89.2 MB in 19s (4,579 kB/s)                                                                                    
+Selecting previously unselected package containerd.io.
+(Reading database ... 149031 files and directories currently installed.)
+Preparing to unpack .../00-containerd.io_2.1.5-1~ubuntu.25.04~plucky_arm64.deb ...
+Unpacking containerd.io (2.1.5-1~ubuntu.25.04~plucky) ...
+Selecting previously unselected package docker-ce-cli.
+Preparing to unpack .../01-docker-ce-cli_5%3a29.0.2-1~ubuntu.25.04~plucky_arm64.deb ...
+Unpacking docker-ce-cli (5:29.0.2-1~ubuntu.25.04~plucky) ...
+Selecting previously unselected package docker-ce.
+Preparing to unpack .../02-docker-ce_5%3a29.0.2-1~ubuntu.25.04~plucky_arm64.deb ...
+Unpacking docker-ce (5:29.0.2-1~ubuntu.25.04~plucky) ...
+Selecting previously unselected package pigz.
+Preparing to unpack .../03-pigz_2.8-1_arm64.deb ...
+Unpacking pigz (2.8-1) ...
+Selecting previously unselected package docker-buildx-plugin.
+Preparing to unpack .../04-docker-buildx-plugin_0.30.0-1~ubuntu.25.04~plucky_arm64.deb ...
+Unpacking docker-buildx-plugin (0.30.0-1~ubuntu.25.04~plucky) ...
+Selecting previously unselected package docker-ce-rootless-extras.
+Preparing to unpack .../05-docker-ce-rootless-extras_5%3a29.0.2-1~ubuntu.25.04~plucky_arm64.deb ...
+Unpacking docker-ce-rootless-extras (5:29.0.2-1~ubuntu.25.04~plucky) ...
+Selecting previously unselected package docker-compose-plugin.
+Preparing to unpack .../06-docker-compose-plugin_2.40.3-1~ubuntu.25.04~plucky_arm64.deb ...
+Unpacking docker-compose-plugin (2.40.3-1~ubuntu.25.04~plucky) ...
+Selecting previously unselected package liberror-perl.
+Preparing to unpack .../07-liberror-perl_0.17030-1_all.deb ...
+Unpacking liberror-perl (0.17030-1) ...
+Selecting previously unselected package git-man.
+Preparing to unpack .../08-git-man_1%3a2.48.1-0ubuntu1.1_all.deb ...
+Unpacking git-man (1:2.48.1-0ubuntu1.1) ...
+Selecting previously unselected package git.
+Preparing to unpack .../09-git_1%3a2.48.1-0ubuntu1.1_arm64.deb ...
+Unpacking git (1:2.48.1-0ubuntu1.1) ...
+Selecting previously unselected package libslirp0:arm64.
+Preparing to unpack .../10-libslirp0_4.8.0-1ubuntu1_arm64.deb ...
+Unpacking libslirp0:arm64 (4.8.0-1ubuntu1) ...
+Selecting previously unselected package slirp4netns.
+Preparing to unpack .../11-slirp4netns_1.2.1-1build2_arm64.deb ...
+Unpacking slirp4netns (1.2.1-1build2) ...
+Setting up liberror-perl (0.17030-1) ...
+Setting up docker-buildx-plugin (0.30.0-1~ubuntu.25.04~plucky) ...
+Setting up containerd.io (2.1.5-1~ubuntu.25.04~plucky) ...
+Created symlink '/etc/systemd/system/multi-user.target.wants/containerd.service' \u2192 '/usr/lib/systemd/system/containerd.s
+ervice'.
+Setting up docker-compose-plugin (2.40.3-1~ubuntu.25.04~plucky) ...
+Setting up apt-ntop (2.10-52) ...
+Updating package list...
+Hit:1 http://ports.ubuntu.com/ubuntu-ports plucky InRelease
+Hit:2 https://download.docker.com/linux/ubuntu plucky InRelease            
+Hit:3 http://ports.ubuntu.com/ubuntu-ports plucky-updates InRelease 
+Ign:4 https://packages.ntop.org/apt/plucky_pi arm64/ InRelease      
+Hit:5 http://ports.ubuntu.com/ubuntu-ports plucky-backports InRelease
+Ign:6 https://packages.ntop.org/apt/plucky_pi all/ InRelease
+Hit:7 http://ports.ubuntu.com/ubuntu-ports plucky-security InRelease
+Err:8 https://packages.ntop.org/apt/plucky_pi arm64/ Release
+  404  Not Found [IP: 116.203.142.127 443]
+Err:9 https://packages.ntop.org/apt/plucky_pi all/ Release
+  404  Not Found [IP: 116.203.142.127 443]
+Error: The repository 'https://packages.ntop.org/apt/plucky_pi arm64/ Release' does not have a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+Error: The repository 'https://packages.ntop.org/apt/plucky_pi all/ Release' does not have a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+dpkg: error processing package apt-ntop (--configure):
+ installed apt-ntop package post-installation script subprocess returned error exit status 100
+Setting up docker-ce-cli (5:29.0.2-1~ubuntu.25.04~plucky) ...
+Setting up libslirp0:arm64 (4.8.0-1ubuntu1) ...
+Setting up pigz (2.8-1) ...
+Setting up git-man (1:2.48.1-0ubuntu1.1) ...
+Setting up docker-ce-rootless-extras (5:29.0.2-1~ubuntu.25.04~plucky) ...
+Setting up slirp4netns (1.2.1-1build2) ...
+Setting up docker-ce (5:29.0.2-1~ubuntu.25.04~plucky) ...
+Created symlink '/etc/systemd/system/multi-user.target.wants/docker.service' \u2192 '/usr/lib/systemd/system/docker.service'.
+Created symlink '/etc/systemd/system/sockets.target.wants/docker.socket' \u2192 '/usr/lib/systemd/system/docker.socket'.
+Setting up git (1:2.48.1-0ubuntu1.1) ...
+Processing triggers for man-db (2.13.0-1) ...
+Processing triggers for libc-bin (2.41-6ubuntu1.1) ...
+Errors were encountered while processing:
+ apt-ntop
+Error: Sub-process /usr/bin/dpkg returned an error code (1)
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo rm /etc/apt/sources.list.d/ntop.list
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt update
+Hit:1 https://download.docker.com/linux/ubuntu plucky InRelease
+Hit:2 http://ports.ubuntu.com/ubuntu-ports plucky InRelease
+Hit:3 http://ports.ubuntu.com/ubuntu-ports plucky-updates InRelease
+Hit:4 http://ports.ubuntu.com/ubuntu-ports plucky-backports InRelease
+Hit:5 http://ports.ubuntu.com/ubuntu-ports plucky-security InRelease
+221 packages can be upgraded. Run 'apt list --upgradable' to see them.
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo docker run -it --name my_ubuntu ubuntu
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+97dd3f0ce510: Pull complete 
+Digest: sha256:c35e29c9450151419d9448b0fd75374fec4fff364a27f176fb458d472dfc9e54
+Status: Downloaded newer image for ubuntu:latest
+root@ab8d6388eb68:/# 
