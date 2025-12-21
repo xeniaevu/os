@@ -1,0 +1,338 @@
+mychardev.c выглядит так:
+
+#include <linux/module.h>
+#include <linux/fs.h>
+#include <linux/cdev.h>
+#include <linux/device.h>
+#include <linux/printk.h>
+
+static dev_t dev_num;
+static struct cdev my_cdev;
+static struct class *dev_class;
+
+static int dev_open(struct inode *inode, struct file *file) {
+    printk(KERN_INFO "mychardev: Device opened\n");
+    return 0;
+}
+
+static ssize_t dev_read(struct file *file, char __user *buf, size_t len, loff_t *off) {
+    printk(KERN_INFO "mychardev: Device read called\n");
+    return 0;
+}
+
+static ssize_t dev_write(struct file *file, const char __user *buf, 
+                        size_t len, loff_t *off) {
+    printk(KERN_INFO "mychardev: Got %zu bytes from userspace\n", len);
+    return len;
+}
+
+static struct file_operations fops = {
+    .owner = THIS_MODULE,
+    .open = dev_open,
+    .read = dev_read,
+    .write = dev_write,
+};
+
+static int __init my_init(void) {
+    printk(KERN_INFO "mychardev: Loading module\n");
+    
+    if (alloc_chrdev_region(&dev_num, 0, 1, "mychardev") < 0) {
+        printk(KERN_ALERT "mychardev: Failed to allocate region\n");
+        return -1;
+    }
+    
+    cdev_init(&my_cdev, &fops);
+    if (cdev_add(&my_cdev, dev_num, 1) < 0) {
+        printk(KERN_ALERT "mychardev: Failed to add cdev\n");
+        goto err_cdev;
+    }
+    
+    dev_class = class_create("mychardev");
+    if (IS_ERR(dev_class)) {
+        printk(KERN_ALERT "mychardev: Failed to create class\n");
+        goto err_class;
+    }
+    
+    if (IS_ERR(device_create(dev_class, NULL, dev_num, NULL, "mychardev"))) {
+        printk(KERN_ALERT "mychardev: Failed to create device\n");
+        goto err_device;
+    }
+    
+    printk(KERN_INFO "mychardev: Loaded with major %d\n", MAJOR(dev_num));
+    return 0;
+    
+err_device:
+    class_destroy(dev_class);
+err_class:
+    cdev_del(&my_cdev);
+err_cdev:
+    unregister_chrdev_region(dev_num, 1);
+    return -1;
+}
+
+static void __exit my_exit(void) {
+    device_destroy(dev_class, dev_num);
+    class_destroy(dev_class);
+    cdev_del(&my_cdev);
+    unregister_chrdev_region(dev_num, 1);
+    printk(KERN_INFO "mychardev: Unloaded\n");
+}
+
+module_init(my_init);
+module_exit(my_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Ksenia");
+MODULE_DESCRIPTION("Character device with read/write");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ sudo apt update
+sudo apt install build-essential linux-headers-$(uname -r)
+[sudo] password for ksenia-p: 
+Hit:1 http://ports.ubuntu.com/ubuntu-ports plucky InRelease
+Get:2 http://ports.ubuntu.com/ubuntu-ports plucky-updates InRelease [126 kB]
+Get:3 http://ports.ubuntu.com/ubuntu-ports plucky-backports InRelease [126 kB]
+Get:4 http://ports.ubuntu.com/ubuntu-ports plucky-security InRelease [126 kB]
+Get:5 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 Packages [497 kB]
+Get:6 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main Translation-en [113 kB]
+Get:7 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 Components [56.0 kB]
+Get:8 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main Icons (48x48) [24.7 kB]
+Get:9 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main Icons (64x64) [36.4 kB]
+Get:10 http://ports.ubuntu.com/ubuntu-ports plucky-updates/main arm64 c-n-f Metadata [9,664 B]
+Get:11 http://ports.ubuntu.com/ubuntu-ports plucky-updates/restricted arm64 Packages [561 kB]
+Get:12 http://ports.ubuntu.com/ubuntu-ports plucky-updates/restricted Translation-en [81.8 kB]
+Get:13 http://ports.ubuntu.com/ubuntu-ports plucky-updates/restricted arm64 Components [212 B]
+Get:14 http://ports.ubuntu.com/ubuntu-ports plucky-updates/restricted arm64 c-n-f Metadata [404 B]
+Get:15 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe arm64 Packages [270 kB]
+Get:16 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe Translation-en [86.3 kB]
+Get:17 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe arm64 Components [50.0 kB]
+Get:18 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe Icons (48x48) [67.4 kB]
+Get:19 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe Icons (64x64) [91.7 kB]
+Get:20 http://ports.ubuntu.com/ubuntu-ports plucky-updates/universe arm64 c-n-f Metadata [6,940 B]
+Get:21 http://ports.ubuntu.com/ubuntu-ports plucky-updates/multiverse arm64 Packages [24.8 kB]
+Get:22 http://ports.ubuntu.com/ubuntu-ports plucky-updates/multiverse arm64 Components [212 B]
+Get:23 http://ports.ubuntu.com/ubuntu-ports plucky-updates/multiverse arm64 c-n-f Metadata [388 B]
+Get:24 http://ports.ubuntu.com/ubuntu-ports plucky-backports/main arm64 Components [212 B]
+Get:25 http://ports.ubuntu.com/ubuntu-ports plucky-backports/restricted arm64 Components [216 B]
+Get:26 http://ports.ubuntu.com/ubuntu-ports plucky-backports/universe arm64 Packages [3,824 B]
+Get:27 http://ports.ubuntu.com/ubuntu-ports plucky-backports/universe Translation-en [1,404 B]
+Get:28 http://ports.ubuntu.com/ubuntu-ports plucky-backports/universe arm64 Components [3,124 B]
+Get:29 http://ports.ubuntu.com/ubuntu-ports plucky-backports/multiverse arm64 Components [216 B]
+Get:30 http://ports.ubuntu.com/ubuntu-ports plucky-security/main arm64 Packages [366 kB]
+Get:31 http://ports.ubuntu.com/ubuntu-ports plucky-security/main Translation-en [75.8 kB]
+Get:32 http://ports.ubuntu.com/ubuntu-ports plucky-security/main arm64 Components [16.7 kB]
+Get:33 http://ports.ubuntu.com/ubuntu-ports plucky-security/main arm64 c-n-f Metadata [6,188 B]
+Get:34 http://ports.ubuntu.com/ubuntu-ports plucky-security/restricted arm64 Packages [535 kB]
+Get:35 http://ports.ubuntu.com/ubuntu-ports plucky-security/restricted Translation-en [76.4 kB]
+Get:36 http://ports.ubuntu.com/ubuntu-ports plucky-security/restricted arm64 Components [212 B]
+Get:37 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe arm64 Packages [194 kB]
+Get:38 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe Translation-en [61.6 kB]
+Get:39 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe arm64 Components [24.4 kB]
+Get:40 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe Icons (48x48) [7,244 B]
+Get:41 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe Icons (64x64) [13.1 kB]
+Get:42 http://ports.ubuntu.com/ubuntu-ports plucky-security/universe arm64 c-n-f Metadata [5,036 B]
+Get:43 http://ports.ubuntu.com/ubuntu-ports plucky-security/multiverse arm64 Components [212 B]
+Fetched 3,748 kB in 2s (1,671 kB/s)         
+194 packages can be upgraded. Run 'apt list --upgradable' to see them.
+build-essential is already the newest version (12.12ubuntu1).
+linux-headers-6.14.0-36-generic is already the newest version (6.14.0-36.36).
+linux-headers-6.14.0-36-generic set to manually installed.
+The following package was automatically installed and is no longer required:
+  nginx-common
+Use 'sudo apt autoremove' to remove it.
+
+Summary:
+  Upgrading: 0, Installing: 0, Removing: 0, Not Upgrading: 194
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ ls /lib/modules/$(uname -r)/build/Makefile
+/lib/modules/6.14.0-36-generic/build/Makefile
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~$ mkdir mychardev && cd mychardev
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ nano Makefile
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ cat Makefile
+obj-m += mychardev.o
+
+PWD := $(CURDIR)
+
+all:
+	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ ls -la
+total 12
+drwxrwxr-x  2 ksenia-p ksenia-p 4096 Dec 21 19:00 .
+drwxr-x--- 20 ksenia-p ksenia-p 4096 Dec 21 18:56 ..
+-rw-rw-r--  1 ksenia-p ksenia-p  183 Dec 21 19:00 Makefile
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ nano mychardev.c
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ ls -la
+total 16
+drwxrwxr-x  2 ksenia-p ksenia-p 4096 Dec 21 19:05 .
+drwxr-x--- 20 ksenia-p ksenia-p 4096 Dec 21 18:56 ..
+-rw-rw-r--  1 ksenia-p ksenia-p  183 Dec 21 19:00 Makefile
+-rw-rw-r--  1 ksenia-p ksenia-p 1180 Dec 21 19:05 mychardev.c
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ make
+make -C /lib/modules/6.14.0-36-generic/build M=/home/ksenia-p/mychardev modules
+make[1]: Entering directory '/usr/src/linux-headers-6.14.0-36-generic'
+make[2]: Entering directory '/home/ksenia-p/mychardev'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: aarch64-linux-gnu-gcc-14 (Ubuntu 14.2.0-19ubuntu2) 14.2.0
+  You are using:           gcc-14 (Ubuntu 14.2.0-19ubuntu2) 14.2.0
+  CC [M]  mychardev.o
+In file included from /usr/src/linux-headers-6.14.0-36-generic/arch/arm64/include/asm/alternative.h:9,
+                 from /usr/src/linux-headers-6.14.0-36-generic/arch/arm64/include/asm/lse.h:14,
+                 from /usr/src/linux-headers-6.14.0-36-generic/arch/arm64/include/asm/cmpxchg.h:14,
+                 from /usr/src/linux-headers-6.14.0-36-generic/arch/arm64/include/asm/atomic.h:16,
+                 from /usr/src/linux-headers-6.14.0-36-generic/include/linux/atomic.h:7,
+                 from /usr/src/linux-headers-6.14.0-36-generic/include/asm-generic/bitops/atomic.h:5,
+                 from /usr/src/linux-headers-6.14.0-36-generic/arch/arm64/include/asm/bitops.h:25,
+                 from /usr/src/linux-headers-6.14.0-36-generic/include/linux/bitops.h:68,
+                 from /usr/src/linux-headers-6.14.0-36-generic/arch/arm64/include/asm/cache.h:40,
+                 from /usr/src/linux-headers-6.14.0-36-generic/include/linux/cache.h:6,
+                 from /usr/src/linux-headers-6.14.0-36-generic/include/linux/time.h:5,
+                 from /usr/src/linux-headers-6.14.0-36-generic/arch/arm64/include/asm/stat.h:12,
+                 from /usr/src/linux-headers-6.14.0-36-generic/include/linux/stat.h:6,
+                 from /usr/src/linux-headers-6.14.0-36-generic/include/linux/module.h:13,
+                 from mychardev.c:1:
+mychardev.c: In function \u2018my_init\u2019:
+/usr/src/linux-headers-6.14.0-36-generic/include/linux/init.h:180:22: error: passing argument 1 of \u2018class_create\u2019 from incompatible pointer type [-Wincompatible-pointer-types]
+  180 | #define THIS_MODULE (&__this_module)
+      |                     ~^~~~~~~~~~~~~~~
+      |                      |
+      |                      struct module *
+mychardev.c:31:30: note: in expansion of macro \u2018THIS_MODULE\u2019
+   31 |     dev_class = class_create(THIS_MODULE, "mychardev");
+      |                              ^~~~~~~~~~~
+In file included from /usr/src/linux-headers-6.14.0-36-generic/include/linux/device.h:31,
+                 from /usr/src/linux-headers-6.14.0-36-generic/include/linux/cdev.h:8,
+                 from mychardev.c:3:
+/usr/src/linux-headers-6.14.0-36-generic/include/linux/device/class.h:226:54: note: expected \u2018const char *\u2019 but argument is of type \u2018struct module *\u2019
+  226 | struct class * __must_check class_create(const char *name);
+      |                                          ~~~~~~~~~~~~^~~~
+mychardev.c:31:17: error: too many arguments to function \u2018class_create\u2019
+   31 |     dev_class = class_create(THIS_MODULE, "mychardev");
+      |                 ^~~~~~~~~~~~
+/usr/src/linux-headers-6.14.0-36-generic/include/linux/device/class.h:226:29: note: declared here
+  226 | struct class * __must_check class_create(const char *name);
+      |                             ^~~~~~~~~~~~
+make[4]: *** [/usr/src/linux-headers-6.14.0-36-generic/scripts/Makefile.build:207: mychardev.o] Error 1
+make[3]: *** [/usr/src/linux-headers-6.14.0-36-generic/Makefile:1997: .] Error 2
+make[2]: *** [/usr/src/linux-headers-6.14.0-36-generic/Makefile:251: __sub-make] Error 2
+make[2]: Leaving directory '/home/ksenia-p/mychardev'
+make[1]: *** [Makefile:251: __sub-make] Error 2
+make[1]: Leaving directory '/usr/src/linux-headers-6.14.0-36-generic'
+make: *** [Makefile:6: all] Error 2
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ nano mychardev.c
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ make clean
+make -C /lib/modules/6.14.0-36-generic/build M=/home/ksenia-p/mychardev clean
+make[1]: Entering directory '/usr/src/linux-headers-6.14.0-36-generic'
+make[2]: Entering directory '/home/ksenia-p/mychardev'
+make[2]: Leaving directory '/home/ksenia-p/mychardev'
+make[1]: Leaving directory '/usr/src/linux-headers-6.14.0-36-generic'
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ make
+make -C /lib/modules/6.14.0-36-generic/build M=/home/ksenia-p/mychardev modules
+make[1]: Entering directory '/usr/src/linux-headers-6.14.0-36-generic'
+make[2]: Entering directory '/home/ksenia-p/mychardev'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: aarch64-linux-gnu-gcc-14 (Ubuntu 14.2.0-19ubuntu2) 14.2.0
+  You are using:           gcc-14 (Ubuntu 14.2.0-19ubuntu2) 14.2.0
+  CC [M]  mychardev.o
+  MODPOST Module.symvers
+  CC [M]  mychardev.mod.o
+  CC [M]  .module-common.o
+  LD [M]  mychardev.ko
+  BTF [M] mychardev.ko
+Skipping BTF generation for mychardev.ko due to unavailability of vmlinux
+make[2]: Leaving directory '/home/ksenia-p/mychardev'
+make[1]: Leaving directory '/usr/src/linux-headers-6.14.0-36-generic'
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ ls -la *.ko
+-rw-rw-r-- 1 ksenia-p ksenia-p 323760 Dec 21 19:08 mychardev.ko
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ sudo insmod mychardev.ko
+[sudo] password for ksenia-p: 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ dmesg | tail -10
+dmesg: read kernel buffer failed: Operation not permitted
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ sudo sysctl kernel.dmesg_restrict=0
+kernel.dmesg_restrict = 0
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ dmesg | tail -10
+[  241.424864] audit: type=1400 audit(1766332627.928:218): apparmor="DENIED" operation="connect" class="file" profile="/usr/bin/wsdd" name="/run/uuidd/request" pid=8545 comm="python3" requested_mask="w" denied_mask="w" fsuid=1000 ouid=0
+[  241.424955] audit: type=1400 audit(1766332627.929:219): apparmor="DENIED" operation="mknod" class="file" profile="/usr/bin/wsdd" name="/var/lib/libuuid/clock.txt" pid=8545 comm="python3" requested_mask="c" denied_mask="c" fsuid=1000 ouid=1000
+[  242.426186] audit: type=1400 audit(1766332628.930:220): apparmor="DENIED" operation="connect" class="file" profile="/usr/bin/wsdd" name="/run/uuidd/request" pid=8545 comm="python3" requested_mask="w" denied_mask="w" fsuid=1000 ouid=0
+[  309.866037] loop16: detected capacity change from 0 to 126768
+[  823.440116] audit: type=1400 audit(1766333209.953:221): apparmor="DENIED" operation="open" class="file" profile="/usr/sbin/cupsd" name="/etc/paperspecs" pid=24965 comm="cupsd" requested_mask="r" denied_mask="r" fsuid=0 ouid=0
+[  823.443087] audit: type=1400 audit(1766333209.956:222): apparmor="DENIED" operation="capable" class="cap" profile="/usr/sbin/cupsd" pid=24965 comm="cupsd" capability=12  capname="net_admin"
+[ 1047.404344] mychardev: loading out-of-tree module taints kernel.
+[ 1047.404384] mychardev: module verification failed: signature and/or required key missing - tainting kernel
+[ 1047.406741] mychardev: Loading module
+[ 1047.407446] mychardev: Loaded with major 510
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ sudo mknod /dev/mychardev c 510 0
+mknod: /dev/mychardev: File exists
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ echo "Hello Kernel Driver!" > /dev/mychardev
+bash: /dev/mychardev: Permission denied
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ echo "Hello Kernel Driver!" | sudo tee /dev/mychardev
+dmesg | tail -10
+Hello Kernel Driver!
+tee: /dev/mychardev: Invalid argument
+[  241.424955] audit: type=1400 audit(1766332627.929:219): apparmor="DENIED" operation="mknod" class="file" profile="/usr/bin/wsdd" name="/var/lib/libuuid/clock.txt" pid=8545 comm="python3" requested_mask="c" denied_mask="c" fsuid=1000 ouid=1000
+[  242.426186] audit: type=1400 audit(1766332628.930:220): apparmor="DENIED" operation="connect" class="file" profile="/usr/bin/wsdd" name="/run/uuidd/request" pid=8545 comm="python3" requested_mask="w" denied_mask="w" fsuid=1000 ouid=0
+[  309.866037] loop16: detected capacity change from 0 to 126768
+[  823.440116] audit: type=1400 audit(1766333209.953:221): apparmor="DENIED" operation="open" class="file" profile="/usr/sbin/cupsd" name="/etc/paperspecs" pid=24965 comm="cupsd" requested_mask="r" denied_mask="r" fsuid=0 ouid=0
+[  823.443087] audit: type=1400 audit(1766333209.956:222): apparmor="DENIED" operation="capable" class="cap" profile="/usr/sbin/cupsd" pid=24965 comm="cupsd" capability=12  capname="net_admin"
+[ 1047.404344] mychardev: loading out-of-tree module taints kernel.
+[ 1047.404384] mychardev: module verification failed: signature and/or required key missing - tainting kernel
+[ 1047.406741] mychardev: Loading module
+[ 1047.407446] mychardev: Loaded with major 510
+[ 1336.286069] mychardev: Device opened
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ 
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ nano mychardev.c
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ sudo rmmod mychardev
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ make clean
+make -C /lib/modules/6.14.0-36-generic/build M=/home/ksenia-p/mychardev clean
+make[1]: Entering directory '/usr/src/linux-headers-6.14.0-36-generic'
+make[2]: Entering directory '/home/ksenia-p/mychardev'
+  CLEAN   Module.symvers
+make[2]: Leaving directory '/home/ksenia-p/mychardev'
+make[1]: Leaving directory '/usr/src/linux-headers-6.14.0-36-generic'
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ make
+make -C /lib/modules/6.14.0-36-generic/build M=/home/ksenia-p/mychardev modules
+make[1]: Entering directory '/usr/src/linux-headers-6.14.0-36-generic'
+make[2]: Entering directory '/home/ksenia-p/mychardev'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: aarch64-linux-gnu-gcc-14 (Ubuntu 14.2.0-19ubuntu2) 14.2.0
+  You are using:           gcc-14 (Ubuntu 14.2.0-19ubuntu2) 14.2.0
+  CC [M]  mychardev.o
+  MODPOST Module.symvers
+  CC [M]  mychardev.mod.o
+  CC [M]  .module-common.o
+  LD [M]  mychardev.ko
+  BTF [M] mychardev.ko
+Skipping BTF generation for mychardev.ko due to unavailability of vmlinux
+make[2]: Leaving directory '/home/ksenia-p/mychardev'
+make[1]: Leaving directory '/usr/src/linux-headers-6.14.0-36-generic'
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ sudo insmod mychardev.ko
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ sudo chmod 666 /dev/mychardev
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ echo "My kernel driver works!" > /dev/mychardev
+dmesg | tail -10
+[ 1047.404344] mychardev: loading out-of-tree module taints kernel.
+[ 1047.404384] mychardev: module verification failed: signature and/or required key missing - tainting kernel
+[ 1047.406741] mychardev: Loading module
+[ 1047.407446] mychardev: Loaded with major 510
+[ 1336.286069] mychardev: Device opened
+[ 1622.815162] mychardev: Unloaded
+[ 1661.513949] mychardev: Loading module
+[ 1661.514330] mychardev: Loaded with major 510
+[ 1685.555238] mychardev: Device opened
+[ 1685.555297] mychardev: Got 24 bytes from userspace
+ksenia-p@ksenia-p-QEMU-Virtual-Machine:~/mychardev$ 
+
